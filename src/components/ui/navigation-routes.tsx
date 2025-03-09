@@ -7,7 +7,7 @@ interface NavigationRoutesProps{
 
 }
 
-const NavigationRoutes = ({isMobile = false}: NavigationRoutesProps) => {
+export const NavigationRoutes = ({isMobile = false}: NavigationRoutesProps) => {
   return (
     <ul className={cn("flex items-center gap-6")}>
       {MainRoutes.map(route => (
@@ -22,4 +22,3 @@ const NavigationRoutes = ({isMobile = false}: NavigationRoutesProps) => {
   )
 }
 
-export default NavigationRoutes
