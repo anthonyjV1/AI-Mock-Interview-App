@@ -1,12 +1,12 @@
-import Container from "@/components/ui/container";
-import Footer from "@/components/ui/footer";
-import Header from "@/components/ui/header";
+import {Container} from "@/components/ui/container";
+import {Footer} from "@/components/ui/footer";
+import {Header} from "@/components/ui/header";
 import { Outlet } from "react-router-dom";
 
-export const MainLayout = () => {
+const MainLayout = () => {
   return (
     <div className="flex flex-col h-screen">
-        {/* handler to sotre the user data */}
+        {/* handler to store the user data */}
         <Header />
 
         <Container className="flex-grow">
@@ -19,6 +19,6 @@ export const MainLayout = () => {
 
         <Footer />
     </div>
-  )
-}
-
+  );
+};
+export default MainLayout;
