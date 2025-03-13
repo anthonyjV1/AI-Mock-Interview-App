@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { PublicLayout } from "./layouts/public-layout";
 import AuthenticationLayout from "@/layouts/auth-layout";
 
-import HomePage from "@/routes/home";
+import { HomePage } from "@/routes/home";
 import { SignInPage } from "@/routes/sign-in";
 import { SignUpPage } from "@/routes/sign-up";
 import ProtectedRoutes from "@/layouts/protected-routes";
@@ -15,7 +15,7 @@ const App = () => {
       <Routes>
         {/*public routes */}
         <Route element={<PublicLayout />}>
-          <Route index element={<HomePage />} />
+          <Route path="/"element={<HomePage />} />
         </Route>
 
         {/* authentication layout */}
