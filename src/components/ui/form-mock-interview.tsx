@@ -201,7 +201,7 @@ export const FormMockInterview = ({initialData} : FormMockInterviewProps) => {
         <div className="w-full flex items-center justify-end gap-6">
           <Button type="reset" size={"sm"} variant={"outline"} disabled={isSubmitting || loading}>Reset</Button>
 
-          <Button type="reset" size={"sm"} disabled={isSubmitting || loading || !isValid}>{loading ? (<Loader className="text-gray-50 animate-spin"/>) : (actions)}</Button>
+          <Button type="submit" size={"sm"} disabled={isSubmitting || loading || !isValid}>{loading ? (<Loader className="text-gray-50 animate-spin"/>) : (actions)}</Button>
         </div>
         </form>
       </FormProvider>
