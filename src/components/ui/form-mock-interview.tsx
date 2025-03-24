@@ -14,6 +14,9 @@ import { Separator } from "./separator"
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "./form"
 import { Input } from "./input"
 import { Textarea } from "./textarea"
+import { chatSession } from "@/scripts"
+import { addDoc, collection, doc, serverTimestamp, updateDoc } from "firebase/firestore"
+import { db } from "@/config/firebase.config"
 
 interface FormMockInterviewProps{
     initialData : Interview |null
@@ -53,6 +56,24 @@ export const FormMockInterview = ({initialData} : FormMockInterviewProps) => {
     ? { title: "Updated..!", description: "Changes saved successfully..." }
     : { title: "Created..!", description: "New Mock Interview created..." };
 
+    const cleanAiResponse = (responseText : string) => {
+      let cleanText = responseText.trim();
+
+      cleanText = cleanText.replace(/(json|```\`)/g,"");
+
+      const jsonArrayMatch = cleanText.match(/\[.*\]/s);
+      if (jsonArrayMatch) {
+        cleanText =jsonArrayMatch[0];
+      } else {
+        throw new Error("No JSON array found in response")
+      }
+
+      try {
+        return JSON.parse(cleanText);
+      } catch (error) {
+        throw new Error("Invalid JSON format: " + (error as Error)?.message);
+      }
+    }
 
     const generateAiResponse = async (data: FormData) => {
       const prompt = `
@@ -71,6 +92,10 @@ export const FormMockInterview = ({initialData} : FormMockInterviewProps) => {
 
         The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
         `;
+        const aiResult = await chatSession.sendMessage(prompt)
+        const cleanedResponse = cleanAiResponse(aiResult.response.text())
+
+        return cleanedResponse
     }
 
     const onSubmit = async (data : FormData) => {
@@ -79,13 +104,32 @@ export const FormMockInterview = ({initialData} : FormMockInterviewProps) => {
         console.log
         if(initialData){
           //update
+          if(isValid){
+            const aiResult = await generateAiResponse(data);
+
+            await updateDoc(doc(db, "interviews", initialData?.id),{
+              questions : aiResult,
+              ...data,
+              updateAt : serverTimestamp(),
+            });
+            toast(toastMessage.title, {description : toastMessage.description})
+           
+          }
         }else{
           //create a new mock interview
           if(isValid){
             const aiResult = await generateAiResponse(data)
+
+            await addDoc(collection(db,"interviews"), {
+              ...data, 
+              userId,
+              questions : aiResult,
+              createAt : serverTimestamp(),
+            })
+            toast(toastMessage.title, {description : toastMessage.description})
           }
         }
-
+          navigate("/generate", { replace:true })
       } catch (error) {
         console.log(error);
         toast.error("Error..", {
