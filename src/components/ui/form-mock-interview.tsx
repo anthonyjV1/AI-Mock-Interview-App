@@ -53,10 +53,39 @@ export const FormMockInterview = ({initialData} : FormMockInterviewProps) => {
     ? { title: "Updated..!", description: "Changes saved successfully..." }
     : { title: "Created..!", description: "New Mock Interview created..." };
 
+
+    const generateAiResponse = async (data: FormData) => {
+      const prompt = `
+        As an experienced prompt engineer, generate a JSON array containing 5 technical interview questions along with detailed answers based on the following job information. Each object in the array should have the fields "question" and "answer", formatted as follows:
+
+        [
+          { "question": "<Question text>", "answer": "<Answer text>" },
+          ...
+        ]
+
+        Job Information:
+        - Job Position: ${data?.position}
+        - Job Description: ${data?.description}
+        - Years of Experience Required: ${data?.experience}
+        - Tech Stacks: ${data?.techStack}
+
+        The questions should assess skills in ${data?.techStack} development and best practices, problem-solving, and experience handling complex requirements. Please format the output strictly as an array of JSON objects without any additional labels, code blocks, or explanations. Return only the JSON array with questions and answers.
+        `;
+    }
+
     const onSubmit = async (data : FormData) => {
       try {
         setLoading(true)
-        console.log(data)
+        console.log
+        if(initialData){
+          //update
+        }else{
+          //create a new mock interview
+          if(isValid){
+            const aiResult = await generateAiResponse(data)
+          }
+        }
+
       } catch (error) {
         console.log(error);
         toast.error("Error..", {
