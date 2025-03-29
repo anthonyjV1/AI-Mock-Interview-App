@@ -119,7 +119,6 @@ export const FormMockInterview = ({initialData} : FormMockInterviewProps) => {
           //create a new mock interview
           if(isValid){
             const aiResult = await generateAiResponse(data)
-
             await addDoc(collection(db,"interviews"), {
               ...data, 
               userId,
