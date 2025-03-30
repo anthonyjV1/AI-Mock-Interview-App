@@ -7,15 +7,15 @@ import { useParams } from "react-router-dom"
 
 export const CreateEditPage = () => {
     const {interviewId} = useParams<{interviewId : string}>()
-    const [interview, SetInterview] = useState<Interview | null>(null)
+    const [interview, setInterview] = useState<Interview | null>(null)
 
     useEffect(() => {
-        const fethcInterview = async() => {
+        const fetchInterview = async() => {
             if (interviewId) {
                 try {
                     const interviewDoc = await getDoc(doc(db, "interviews", interviewId));
                 if (interviewDoc.exists()){
-                    SetInterview({ id: interviewDoc.id, ...interviewDoc.data()} as Interview)
+                    setInterview({ id: interviewDoc.id, ...interviewDoc.data()} as Interview)
                 } 
                 } catch (error) {
                     console.log(error)
@@ -23,7 +23,7 @@ export const CreateEditPage = () => {
                 }
             }
         };
-        fethcInterview();
+        fetchInterview();
     }, [interviewId])
 
   return (

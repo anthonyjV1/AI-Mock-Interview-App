@@ -27,7 +27,7 @@ export const InterviewPin = ({interview, onMockPage = false} : InterviewPinProps
       <CardTitle className="text-lg">{interview?.position}</CardTitle>
       <CardDescription>{interview?.description}</CardDescription>
       <div className="w-full flex items-center gap-2 flex-wrap">
-        {interview.techStack.split(",").map((word, index) => (
+        {interview?.techStack.split(",").map((word, index) => (
           <Badge key={index} variant={"outline"} className="text-xs text-muted-foreground hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-900">{word}</Badge>
         ))}
       </div>
@@ -35,7 +35,7 @@ export const InterviewPin = ({interview, onMockPage = false} : InterviewPinProps
         <CardFooter className={cn("w-full items-center p-0", onMockPage ? "justify-end" : "justify-between")}>
           <p className="text-[12px] text-muted-foreground truncate whitespace-nowrap">
 
-            {`${new Date(interview.createAt.toDate()).toLocaleDateString("en-US", {dateStyle: "long"})} - ${new Date(interview.createAt.toDate()).toLocaleTimeString("en-US", {timeStyle: "short"})}`}
+            {`${new Date(interview?.createAt.toDate()).toLocaleDateString("en-US", {dateStyle: "long"})} - ${new Date(interview?.createAt.toDate()).toLocaleTimeString("en-US", {timeStyle: "short"})}`}
           </p>
 
             {!onMockPage && (
@@ -44,7 +44,7 @@ export const InterviewPin = ({interview, onMockPage = false} : InterviewPinProps
                 content="View"
                 buttonVariant={"ghost"}
                 onClick={() => {
-                  navigate(`/generate/${interview.id}`, { replace:true});
+                  navigate(`/generate/${interview?.id}`, { replace:true});
                 }}
                 disbaled={false}
                 buttonClassName="hover:text-sky-500"
@@ -56,7 +56,7 @@ export const InterviewPin = ({interview, onMockPage = false} : InterviewPinProps
                 content="Feedback"
                 buttonVariant={"ghost"}
                 onClick={() => {
-                  navigate(`/generate/feedback/${interview.id}`, { replace:true});
+                  navigate(`/generate/feedback/${interview?.id}`, { replace:true});
                 }}
                 disbaled={false}
                 buttonClassName="hover:text-yellow-500"
@@ -68,7 +68,7 @@ export const InterviewPin = ({interview, onMockPage = false} : InterviewPinProps
                 content="Start"
                 buttonVariant={"ghost"}
                 onClick={() => {
-                  navigate(`/generate/interview/${interview.id}`, { replace:true});
+                  navigate(`/generate/interview/${interview?.id}`, { replace:true});
                 }}
                 disbaled={false}
                 buttonClassName="hover:text-yellow-500"
