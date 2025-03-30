@@ -166,7 +166,10 @@ export const RecordAnswer = ({question, isWebCam, setIsWebCam}: RecordAnswerProp
             });
             console.log(error)
             
-        }finally{setLoading(false)}
+        }finally{
+          setLoading(false)
+          setOpen(!open)
+        }
       }
 
       useEffect(() => {
